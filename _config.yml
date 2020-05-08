@@ -32,7 +32,7 @@ github_username:  jekyll
 # Build settings
 remote_theme: niklasbuschmann/contrast@v2.8
 plugins:
-  - jekyll-feed
+  - jekyll-remote-theme
 
 # Exclude from processing.
 # The following items will not be processed, by default.
