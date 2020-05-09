@@ -30,7 +30,7 @@ twitter_username: ccarterbauer
 github_username:  everydayrain
 
 # Build settings
-remote_theme:  heiswayi/textlog 
+theme: minima
 plugins:
   - jekyll-feed
 
