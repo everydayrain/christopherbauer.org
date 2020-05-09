@@ -30,9 +30,9 @@ twitter_username: ccarterbauer
 github_username:  everydayrain
 
 # Build settings
-theme: minima
+remote_theme: heiswayi/textlog 
 plugins:
-  - jekyll-feed
+ 
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -53,6 +53,3 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-
-name: GitHub Pages action
-uses: peaceiris/actions-gh-pages@v3.6.1
