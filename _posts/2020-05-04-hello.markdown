@@ -1,8 +1,0 @@
----
-layout: post
-title:  "hELLO wORLD"
-date:   2020-05-04
-categories: jekyll update
----
-HI
-
