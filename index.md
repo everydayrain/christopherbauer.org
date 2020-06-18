@@ -3,14 +3,17 @@ layout: default
 ---
 
 
-[About](./another-page.html).[CV](./another-page2.html)
-
-There should be whitespace between paragraphs.
-
 <ul>
   {% for post in site.posts %}
+
+<style>
+    
+       ul{list-style-type: none;}
+
+</style>
+
     <li>
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
       {{ post.excerpt }}
     </li>
   {% endfor %}

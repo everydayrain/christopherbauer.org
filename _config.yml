@@ -1,6 +1,8 @@
-title: Chris Bauer
-logo: /assets/img/logo.png
-description: Stray thoughts
+title: Imagined Realities
+logo: 
+description: Stray thoughts, anthropology notes
 show_downloads: false
 google_analytics:
 theme: jekyll-theme-minimal
+plugins:
+ - jekyll-feed
