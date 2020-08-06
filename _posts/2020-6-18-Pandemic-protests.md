@@ -1,5 +1,6 @@
 ---
 layout: post
+author: Chris
 title: Wacquat's Prisonfare and the Production of Institutional Racism
 ---
 
