@@ -1,14 +1,14 @@
 ---
-
 layout: default
 title: About
-
 ---
 
 *"In the spirit of the work of Begoña Aretxaga, where she challenges social realist ethnographic portrayals of the political, I employ the 'make-believe' as a category to highlight what she called 'fictional reality'. Aretxaga studied people's imaginative potentialities as central to the making of their political realities." (Navaro-Yashin 2007:80)*
 
 *"The question of desire as well as fear becomes most crucial in rethinking the kind of reality the state might be acquiring at this moment of globalization, not only of capital, services, and culture but also of security operations and states of emergency.  The question of subjectivity emerges as critical in a variety of ways. On the one hand, there are the subjective dynamics that link people to states, something that Weber already pointed out; on the other hand is what one would call the subjectivity of the state being (Taussig 1992, 1997). How does it become a social subject in everyday life? This is to ask about bodily excitations and sensualities, powerful identifications, and unconscious desires of state officials (Aretxaga 2000a, 2001a); about performances and public representations of statehood; and about discourses, narratives, and fantasies generated around the idea of the state." (Aretxaga 2003, 395)*  
  <br>
+ 
+ ![](/assets/img/casual.jpg)
  
 Hi, I'm Chris. 
 
