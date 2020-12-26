@@ -3,7 +3,7 @@ layout: post
 author: Chris
 title: Reflections
 ---
-I've been working on a post using an anthropological view to understand outdoor gear.  I haven't quite put down everything I wan to say, so here's some reflections on recent doings.
+I've been working on a post using an anthropological view to understand outdoor gear.  I haven't quite put down everything I want to say, so here's some reflections on recent doings.
 
 ### Books
 
