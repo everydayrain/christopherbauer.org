@@ -28,7 +28,7 @@ Also, I secured my site hosted on No-Ip with HTTPS by using [Certbot](https://ce
 
 ### The LAMP Stack
 
-The first part of this project lies in creating a LAMP stack.  According to [these folks](https://www.ibm.com/cloud/learn/lamp-stack-explained), that is a combination of Linux, Apache, MySQL, and PHP, though for this case I use MariaDB instead of MySQL.  
+The first part of this project lies in creating a LAMP stack.  According to [these folks](https://www.ibm.com/cloud/learn/lamp-stack-explained), that is a combination of Linux, Apache, MySQL, and PHP (or Python/Perl), though for this case I use MariaDB instead of MySQL.  
 
 It helps to run these installs using sudo or as the root user, but don't do that for the next section.  I followed the instructions over at [LinuxBabe](https://www.linuxbabe.com/linux-server/install-apache-mariadb-and-php7-lamp-stack-on-ubuntu-16-04-lts) on the LAMP stack install.
 
