@@ -3,7 +3,7 @@ layout: post
 author: Chris
 title: Installing Pi-hole on a RPI3B+
 ---
-I hesitate to make a post writing up my experience installing Pi-hole because, even back in 2019, the installation was a snap. As it turns out, I had to go through this process again in 2022 when I updated the OS on my Raspberry Pi. Still, because installing Pi-hole was my first experience with Linux it deserves the write-up treatment.  It was also my first experience completing a project using CLI tools.  I have to pay tribute to that victory, to that event that helped me see the virtue of Unix machines.  So buckle up for my take on installing Pi-hole!
+I hesitate to write up my experience installing Pi-hole because, even back in 2019, the installation was a snap. As it turns out, I had to go through this process again in 2022 when I updated the OS on my Raspberry Pi. Still, because installing Pi-hole was my first experience with Linux it deserves the write-up treatment.  It was also my first experience completing a project using CLI tools.  I have to pay tribute to that victory, to that event that helped me see the virtue of Unix machines.  So buckle up for my take on installing Pi-hole!
 
 For those that don't know, Pi-hole bills itself as a "DNS sinkhole."  And with that, Pi-hole has already provided us with  riches in the form of including "sinkhole" in our daily vocabulary. Basically they mean its a network-based adblocker.  I won't go into the details of how a DNS sinkhole works in this post, as there is ample documentation on [Pi-hole.net](https://docs.pi-hole.net/). 
 
@@ -45,5 +45,5 @@ For an Edgerouter X, this was as simple as entering the Pi-hole host IP into the
 
 Pi-hole also recommends setting upstream DNS providers.  Of course you can select whatever you like, but for me I installed unbound to work with Pi-hole as a DNS solution.  But that is for another post.
 
-And that was it.  Find some blocklists like the ones that Pi-hole recommends, or web search for lists suited to your specific devices!
+That was it!  Find some blocklists like the ones that Pi-hole recommends, or web search for lists suited to your specific devices and you're off.
 
