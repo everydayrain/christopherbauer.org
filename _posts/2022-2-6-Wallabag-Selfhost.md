@@ -28,9 +28,29 @@ Also, I secured my site hosted on No-Ip with HTTPS by using [Certbot](https://ce
 
 ### The LAMP Stack
 
-The first part of this project lies in creating a LAMP stack.  According to [these folks](https://www.ibm.com/cloud/learn/lamp-stack-explained), that is a combination of Linux, Apache, MySQL, and PHP (or Python/Perl), though for this case I use MariaDB instead of MySQL.  
+The first part of this project lies in creating a LAMP stack.  According to [these folks](https://www.ibm.com/cloud/learn/lamp-stack-explained), that is a combination of Linux, Apache, MySQL, and PHP (or Python/Perl), though in this case I use MariaDB instead of MySQL.  
 
 It helps to run these installs using sudo or as the root user, but don't do that for the next section.  I followed the instructions over at [LinuxBabe](https://www.linuxbabe.com/linux-server/install-apache-mariadb-and-php7-lamp-stack-on-ubuntu-16-04-lts) on the LAMP stack install.
+
+You'll also want to install a number of php modules.  Ensure that you have the following:
+```
+sudo apt install php7.4-bcmath php7.4-xml php7.4-zip php7.4-curl php7.4-mbstring php7.4-gd php-tidy php-intl
+```
+#### Composer Hell
+
+Also ensure that you have composer.  I've had a ton of problems with composer from the standard RaspbianOS repos over time, so I've come to learn that it makes more sense to install a local version in the wallabag file than to rely on a global version from the repo.  In part this is born of the experince that the repo version is often so old that it won't work with wallabag's version.  These instructions are cribbed from [the composer site](https://getcomposer.org/download), and will change after the time of this writing, it'd be best to go to the website and follow their instructions.  For the sake of completeness, here is what I did:
+```
+cd [your/wallabag/directory]
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+```
+When I installed, I recieved composer 2.3.10, whereas the wallabag composer.lock file threw an error on requireing less than 2.3.  If you get the same error down the line, run:
+```
+php composer.phar self-update --2.2
+```
 
 Because a lot of the LAMP stack services were available to install through the Raspbian apt repositories, it is pretty straightforward to install the primary services and dependencies.  
 
@@ -96,22 +116,31 @@ Nowadays you can clone Wallabag from a git repository.  You should choose a loca
 ```
 git clone https://github.com/wallabag/wallabag.git
 ```
+Now you'll want to move the wallabag folder over to your apache directory:
+
+```
+sudo mv wallabag /var/www/
+```
+
 ```
 cd wallabag
 ```
-Side note 1: the trickiest part, over several installs, was coming to the realization that things would go more smoothly if I compiled Wallabag as the Apache user:  
+
+If I assume that you, dear reader, are maintaining this solo, eventually you'll want to make sure there are 750 permissions on the files and folder, but if you have problems installing use abundant permissions and change them back to this after you are successful:
 ```
-sudo su www-data
+sudo chmod 750 -R [/YOUR/LOCATION/wallabag]
 ```
-Side note 2: changing the permissions on the Wallabag folder temporarily for the install may help as well.  I believe I used:
+Before you compile it wouldn't hurt to verify with composer that you have the recommended dependencies:
 ```
-chmod -R 755 [/YOUR/LOCATION/]
+php composer.phar update
 ```
-Next you compile and there is a big output from the command:
+
+Next you compile, but you want to make sure you run from the apache user and *not* as root, so do the following.  Make sure you are in the /var/www/wallabag folder when you run these: 
 ```
-make install
+sudo -u www-data /bin/bash
+php composer.phar install
 ```
-Once the compile gets going without errors, you have a lot of output as composer deals with the dependencies.  Eventually you'll reach a section where you'll have to input information.  You can hit enter to use the defaults, but, at a minimum, you'll want to enter in the  user, password and name of the MariaDB, the domain information, and a password for the secret parameter:
+There will be a big output from the command.  Once the compile gets going without errors, you have a lot of output as composer deals with the dependencies.  Eventually you'll reach a section where you'll have to input information.  You can hit enter to use the defaults, but, at a minimum, you'll want to enter in the  user, password and name of the MariaDB, the domain information, and a password for the secret parameter:
 
 ```
 Generating optimized autoload files
@@ -121,11 +150,11 @@ Some parameters are missing. Please provide them.
 database_driver (pdo_mysql): 
 database_driver_class (null): 
 database_host (127.0.0.1): 
-database_port (null): 
+database_port (null):3306 
 database_name (wallabag): 
 database_user (root): wallabag
 database_password (null): MYgoodPasWord
-database_path (null): 
+database_path (null):/var/lib/mysql/wallabag
 database_table_prefix (wallabag_): 
 database_socket (null): 
 database_charset (utf8mb4): 
@@ -166,13 +195,22 @@ Finally you'll have to change both the apache2.conf & 000-default.conf files to 
 
 First, add the following to the virtual hosts section of apache2.conf file in the apache2 folder:
 
-	<Directory /var/wallabag/web/
+	<Directory /var/www/wallabag/web/>
 			Options Indexes FollowSymLinks
 			AllowOverride None
 			Require all granted
 	</Directory>
 
-Next, modify 000-default.conf in /etc/apache2/sites-avaiable/.  Using nano edit the .conf file and look for the DocumentRoot section.  In that section write in the Wallabag file location.  
+Next, modify 000-default.conf in /etc/apache2/sites-avaiable/.  Using nano edit the .conf file and look for the DocumentRoot section.  In that section write in the Wallabag folder location.  
+
+Ensure you have the right permissions set by implimenting the following:
+```
+sudo chown -R www-data:www-data /var/www/wallabag/bin
+sudo chown -R www-data:www-data /var/www/wallabag/app/config
+sudo chown -R www-data:www-data /var/www/wallabag/vendor
+sudo chown -R www-data:www-data /var/www/wallabag/data/
+sudo chown -R www-data:www-data /var/www/wallabag/web/
+```
 
 FInally, enable the Wallabag site and restart Apache:
 ```
@@ -181,8 +219,10 @@ sudo a2ensite wallabag
 ```
 sudo systemctl restart apache2.service
 ```
+### Port Forwarding
+Ensure you have port forwarding to the port you selected in the parameters.yml file set up on your router.  Since router types very so widely, I can't assist with this part.
 
 ### Verify
-That should be it.  Navigate to your domain and you should see a page asking for your credentials.
+That should be it.  Use a browser to navigate to your domain and you should see a page asking for your credentials.
 
 There are apps on the app stores for using Wallabag on your mobile devices.  I hope to cover setting up HTTPS in a seperate post.
