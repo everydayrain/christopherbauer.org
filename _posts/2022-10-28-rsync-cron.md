@@ -4,13 +4,11 @@ author: Chris
 date: 2022-10-28
 title: Rsync and Cron for Lightweight Netowrk Backups
 ---
-# Automating rsync for backups to network targets
-I've got a Synology Network Attached Storage (NAS) appliance with the DiskStation Manger (DSM) OS and so far I've been happy.  While Synology has its own apps to provide backup capabilities, and there are other 3rd party options, I wanted to learn more about a ubiquitous service on Linux distributions called rsync.  Though rsync can run through manual input, I also wanted to create scheduled backups, so that is where Linux's native automation service CRON comes in. 
+I've got a Synology Network Attached Storage (NAS) appliance with the DiskStation Manger (DSM) OS and so far I've been happy.  While Synology has its own apps to provide backup capabilities, and there are other 3rd party options, I wanted to learn more about a ubiquitous service on Linux distributions called rsync.  Though rsync can run through manual input, I also wanted to create scheduled backups, so that is where Linux's native automation service cron comes in. 
 
 Rsync is a file copy program that can copy files between network locations among its many features.  One of rsync's capabilities provides this copy feature over ssh.  I have some familiarity with ssh from playing with headless Raspberry Pis, so this seemed like a natural next step for me.  Plus, its pretty handy that more than a few Linux distributions come with rsync already installed. 
 
-For this guide we'll start with some configuration of both the Linux client and Synology server.  Next, we'll configure the ssh session to run smoothly in anticipation of automating with cron.  Last we'll set up  
- number of cron tasks to schedule the backup scripts with the backup locations we want to duplicate on the NAS.  You'll need a few things before we begin:
+For this guide we'll start with some configuration of both the Linux client and Synology server.  Next, we'll configure the ssh session to run smoothly in anticipation of automating with cron.  Last we'll set up  the cron tasks to schedule the backup scripts with the backup locations we want to duplicate on the NAS.  You'll need a few things before we begin:
 
 - You'll need to know the IP of your NAS
 - You'll need access to the web console of your NAS (usually the IP with :5000 after it)
@@ -34,16 +32,16 @@ Same process for the ssh command line program.  This is even more common than rs
 ```
 ssh -v
 ```
-If you get an output that begins with "usage:" and is followed by a variety of letters with short explanations in brackets, you're all set.  If not, back to the package manager and search for a package like "openssh".
+If you get an output that begins with "usage:" and is followed by a variety of letters with short explanations in brackets, you're all set.  If not, back to the package manager and search for a package like "openssh."
 
 ### Enabling rsync on Syology DSM 
-Head over to your Synology console and sign in.  From there open control panel and type "file services" into the search box at the top left of the window. 
+Head over to your Synology console and sign in.  From there open the control panel and type "file services" into the search box at the top left of the window. 
 
 That will take you to a new panel.  Select the rsync tab at the top and check the checkbox next to "Enable rsync service."
 
 ![](/assets/img/enable_rsync.png)
 
-Next we'll set up a user for rsync on the NAS.  If you already have a separate user created apart from the default admin and guest users, you can assign it the rsync service by selecting the edit button for the user and selecting the applications tab to find rsync and allow.
+Next we'll set up a user for rsync on the NAS.  If you already have a separate user created apart from the default admin and guest users, you can assign it the rsync service by heading over to the same control panel of the web console and typing “user & group” in the search box.  Select the edit button for the user and select the applications tab to find rsync and allow.
 
 If you don't already have a separate user on your NAS that you'd like to use for rsync  you can create one using the following instructions:
 
@@ -54,11 +52,11 @@ If you don't already have a separate user on your NAS that you'd like to use for
 - If you don't know what user speed limit settings are then they are probably not applicable, so hit the final next and you'll be given a summary to approve.
 
 ### Enable SSH on Synology DSM 
-Later it'll be necessary to have ssh enabled on both Linux client and Synology server in order to exchange the public key.  So next we'll set up the ssh server on Synology NAS box.  To do this, we'll head over to the control panel again.  Search for terminal & snmp.  This should land you on a tab called terminal where you want to check the box for "Enable SSH service."
+Later it'll be necessary to have ssh enabled on both the Linux client and Synology server in order to exchange the public key.  So next we'll set up the ssh server on Synology NAS box.  To do this, we'll head over to the control panel again.  Search for terminal & snmp.  This should land you on a tab called terminal where you want to check the box for "Enable SSH service."
 ![](/assets/img/enable_ssh.png)
 
 ## File and folder config on Synology DSM
-There is a bit of setup required for permissions on the folders related to ssh that is not pre-configured in Synology DSM.  To accomplish this we'll move out of the Synology web console and open a remote shell on the Linux client we're going to backup.  First we need to connect by ssh into the Synology NAS now that we've enabled ssh logins.  Open a terminal on your Linux client and type the following:
+There is a bit of setup required for permissions on the folders related to ssh that is not pre-configured in Synology DSM.  To accomplish this we'll move out of the Synology web console and open a remote shell on the Linux client we're going to backup.  First we need to connect by ssh into the Synology NAS now that we've enabled ssh logins.  Open a terminal on your Linux client and type the following, making sure to loose the brackets and substitute your options:
 ```
 ssh [useryoucreatedabove]@[IPofyourNAS]
 ```
@@ -111,7 +109,7 @@ ssh-copy-id [useryoucreatedabove]@[IPofyourNAS]
 ```
 
 ### Optional: configuring alternative key paths
-If you have a variety of keys, or decide to name your key something different than the default, you'll have to make some modifications in order to sign in.  You'd need to use the -i flag in the command above along with the location/name specified in order to transfer the right key.  You'd also need to take those modifications into account in the next step.  Specifically, you can set the modified key's location in the ssh config file for the NAS hostname.  To demonstrate, follow these steps:
+If decide to name your key something different than the default you'll have to make some modifications in order to sign in.  You'd need to use the -i flag in the command above along with the location/name specified in order to transfer the right key.  You'd also need to take those modifications into account in the next step.  Specifically, you can set the modified key's location in the ssh config file for the NAS hostname.  To demonstrate, follow these steps:
 
 First, create a config file in your home directory .ssh folder.
 ```
@@ -129,7 +127,7 @@ Host [give your NAS a name here]
 	IdentityFile ~/.ssh/[name of your private key (doesn't have .pub extension)]
 	IdentitiesOnly yes
 ```
-The first line sets a nickname for ssh to use in establishing connections.  Hostname defines your NAS; User defines your rsync identity in Synology DSM; IdentityFile creates the path to your modified key; and IdentitiesOnly ensures that ssh "should only use the configured authentication identity and certificate files (either the default files, or those explicitly configured in the ssh_config files or passed on the ssh(1) command-line)" for sign in. 
+The first line sets a nickname for ssh to use in establishing connections.  Hostname defines your NAS location; User defines your rsync identity in Synology DSM; IdentityFile creates the path to your modified key; and IdentitiesOnly ensures that ssh "should only use the configured authentication identity and certificate files (either the default files, or those explicitly configured in the ssh_config files or passed on the ssh(1) command-line)" for sign in. 
 
 You should be able to test the config file without restarting ssh services by simply using the ssh command and your entry for the Host line: 
 ```
@@ -145,26 +143,26 @@ rsync -avz -e ssh /home/michael_scott/ [useryoucreatedabove]@[IPofyourNAS]::NetB
 
 To explain the command a little, the -a flag sets archive mode, which the documentation in rsync lays out nicely as, "archive mode...ensures that symbolic links, devices,  attributes,  permissions, ownerships, etc. are preserved in the transfer;" the -v flag is for verbose; the -e flag enables a remote shell option and allows you to specify ssh as the program to handle the connection; and the -z flag compresses the files during the transfer; a useful option for large files.
 
-Alternatively, if you are using a modified key, then you'd simply enter the name you gave your NAS:
+Alternatively, if you are using a modified key, then you'll have to make some additions to indicate where the key is:
 ```
 rsync -avz -e "ssh -i ~/.ssh/[pathtoyournewkey]" /home/michael_scott/ [useryoucreatedabove]@[IPofyourNAS]::NetBackup 
 ```
 That command should begin copying your files between your client and server.  If you plan on using these modifications in automating, you'll have to continue to use the -i flag along with the path to the irregular key location in cron.
 
 ## Automating rsync commands with cron
-Now we are ready to create a schedule of rsync backups similar to one we implemented above. First, we'll create a regular daily backup schedule creating files that won't be deleted for a period.  That way we'll have versions of files we've moved or deleted for a short time period, like the native backup services of Apple or Windows OSes.  Then we'll create another cron job with the same command but with an additional --delete flag to clean up those files that you no longer have in your directory.  These two scripts will give you a month during which you can retrieve files you've deleted or moved.
+Now we are ready to create a schedule of rsync backups similar to one we implemented above. First, we'll create a regular daily backup schedule creating files that won't be deleted for a period.  That way we'll have versions of files we've moved or deleted available on the NAS for a short time period.  Then we'll create another cron job with the same command but with an additional --delete flag to clean up those files that you no longer have in your directory.  Depending upon when a file or folder is moved/deleted, you'd have it remain available on the NAS for up to a month set up depending on when the original was deleted. 
 
-To set up the initial backup run, we'll first open the cron editor:
+For the initial backup run, we'll first open the cron editor:
 ```
 crontab -e
 ```
-In my distro this just opened a blank page, but this was nevertheless the right command.  To use cron you'll enter in a time in cron's specific format, followed by the rsync command you used above.  For example, to run the rsync command once a day at 1:30 p.m. you'd enter the following:
+In my distro this just opened a blank page, but this was nevertheless the right command.  To use cron you'll enter a time in cron's specific format, followed by the rsync command you used above.  For example, to run the rsync command once a day at 1:30 p.m. you'd enter the following:
 ```
 30 13 * * * rsync -avz -e ssh /home/michael_scott/ [useryoucreatedabove]@[IPofyourNAS]::NetBackup
 ```
 Cron does have a bit of a tricky syntax to learn, but if you'd like to simplify things you can always use a cron calculator [like this one](https://crontab.guru/).
 
-That command will create a backup of the home folder in your NetBackup folder.  Next, we'll implement a delete command to clear deleted files once a month on the 15th day at 1:30 p.m.  To create an rsync command that deletes files that Michael Scott has removed from his home folder, you'd use the following:
+That command will create a backup of the home folder in your NetBackup folder.  Next, we'll implement a delete command to clear deleted files once a month on the 15th day at 1:30 p.m.  To create a rsync command that deletes files that Michael Scott has removed from his home folder, you'd use the following:
 ```
 30 13 15 * * rsync -avz -e ssh --delete /home/michael_scott/ [useryoucreatedabove]@[IPofyourNAS]::NetBackup
 ```
@@ -174,4 +172,6 @@ And that's it!  Now you have a functioning automated backup.  If you ever want t
 ```
 journalctl | grep crond
 ```
+It should show entries corresponding to the times that you've set up in cron if all is well. 
+
 Thanks for reading along!
