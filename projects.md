@@ -9,4 +9,4 @@ title: Projects
 
 - [The Why and How of Self-Hosting FreshRSS](https://christopherbauer.org/2022/09/15/The-Why-and-How-of-Self-Hosting-FreshRSS.html)
 
-- [Rsync and Cron for Lightweight Network Backups](https://christopherbauer.org/2022/22/28/rsync-cron.html)
+- [Rsync and Cron for Lightweight Network Backups](https://christopherbauer.org/2022/10/28/rsync-cron.html)
