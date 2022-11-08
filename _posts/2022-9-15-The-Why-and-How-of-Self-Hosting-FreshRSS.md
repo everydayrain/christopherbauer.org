@@ -40,7 +40,7 @@ Whether the risk is worth it is up to you dear reader.  However, its worth point
 In any event, I ran that curl script and proceeded from there.
 
 ## Pull the Right Docker Container Variety
-In my case the author of FreshRSS recommended the [linux server ](https://hub.docker.com/r/linuxserver/freshrss) variant from Linuxserver.io for my ARMv8 64-bit System on a Chip, as the server version covered a variety of systems as opposed to the base FreshRSS variant.  So, before we go any further, lets make sure to verify your system's configuration.
+In my case the author of FreshRSS recommended the [linux server ](https://hub.docker.com/r/linuxserver/freshrss) variant from [Linuxserver.io](https://hub.docker.com/r/linuxserver/freshrss) for my ARMv8 64-bit System on a Chip, as the server version covered a variety of systems as opposed to the base FreshRSS variant.  So, before we go any further, lets make sure to verify your system's configuration.
 
 There are a couple of terminal commands you can use to sort this out.  One to give you info on your OS/distro is:
 ```
@@ -84,11 +84,11 @@ For step four, create an identity and password.  Then step five, you're done!
 ## Configuring the API for Clients
 If you want to consume your FreshRSS feeds on clients, you'll have to enable the API interface within FreshRSS.  This is a matter of turning the API on, and setting up a password for the API.
 
-Head over to your web interface and sign in.  Under the cog in the upper left corner go to authentication and check the box next to "Allow API access (required for mobile apps)" and hit submit.
+Head over to your web interface and sign in.  Under the cog in the upper right corner go to authentication and check the box next to "Allow API access (required for mobile apps)" and hit submit.
 
-Then head to the profile option under the cog in the upper left corner and head to the new section "API Management."  There will be a space there for you to add a password, so enter a complex, strong password and hit submit.
+Then head to the profile option under the cog in the upper right corner and head to the new section "API Management."  There will be a space there for you to add a password, so enter a complex, strong password and hit submit.
 
-These should enable you to use a reader client on a mobile device.  That configuration will vary from device to device,  but one general point that may be similar in different cases: sometimes in the initial client setup there will be a FreshRSS option to integrate the client with FreshRSS's API, or alternatively, to use Fever integration.   FreshRSS tends to favor Fever when there is no native FreshRSS option. [Look at this page](https://github.com/FreshRSS/FreshRSS#apis--native-apps) for client reader options and enabled services.
+These should enable you to use a reader client on a mobile device.  That configuration will vary from device to device, but one general point is to keep a lookout in the initial client setup for a FreshRSS option to integrate the client with FreshRSS's API, or alternatively, to use Fever integration.   FreshRSS tends to favor Fever when there is no native FreshRSS option. [Look at this page](https://github.com/FreshRSS/FreshRSS#apis--native-apps) for client reader options and enabled services.
 
 ## Updating
 First, you want to back up your feeds.  Head to subscription management in the FreshRSS interface and then the import/export option in the menu on the left-hand side.  There will be options to export at the bottom.
