@@ -123,6 +123,10 @@ MariaDB [(none)]> GRANT ALL PRIVILEGES ON [somedatabasename].* TO '[someusername
 MariaDB [(none)]> exit;
 ```
 
+And enable MariaDB to start at boot:
+```
+sudo systemctl enable mariadb
+```
 ### P - Install PHP
 What version of PHP you are able to install will depend upon your distro.  For example, if you are using Debian, you might have to check which version of PHP is available in your repositories.  You can check for those Debian-PHP versions [at this page](https://wiki.debian.org/PHP#PHP_and_Debian).  If you have a rolling release distro or one with non-Debian repositories, you might check to see what version is supported.  At the time of this writing, PHP7.4 was all I could find on Debian Bullseye.  When you know what you are after, substitute the version number into these installation candidates:
 ```
