@@ -19,3 +19,4 @@ layout: default
   {% endfor %}
 </ul>
 
+<a rel="me noopener" href="https://infosec.exchange/@anthro_packets">Mastodon</a>
