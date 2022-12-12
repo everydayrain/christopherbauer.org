@@ -2,7 +2,7 @@
 layout: post
 author: Chris
 date: 2022-10-28
-title: Rsync and Cron for Lightweight Netowrk Backups
+title: Rsync and Cron for Lightweight Network Backups
 ---
 I've got a Synology Network Attached Storage (NAS) appliance with the DiskStation Manger (DSM) OS and so far I've been happy.  While Synology has its own apps to provide backup capabilities, and there are other 3rd party options, I wanted to learn more about a ubiquitous service on Linux distributions called rsync.  Though rsync can run through manual input, I also wanted to create scheduled backups, so that is where Linux's native automation service cron comes in. 
 
