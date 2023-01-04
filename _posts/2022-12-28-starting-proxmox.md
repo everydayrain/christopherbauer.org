@@ -52,13 +52,13 @@ Last up was a review and confirm install screen.  Between the graphical installe
 
 ## Optional Configuration
 #### Proxmox's Configuration Methods 
-Proxmox offers two methods for configuration of its services: either through the command line or through a web UI (WUI).  If you choose the WUI, you can use the IP address you supplied in the graphical install with the port 8006 appended, so it'd look something like https://10.0.0.1:8006.  Since I was new to Proxmox I decided a little support via abstraction wouldn't hurt, and so I chose to use the WUI instead of the command line.
+Proxmox offers two methods for configuration of its services: either through the command line or through a graphical UI (GUI).  If you choose the GUI, you can use the IP address you supplied in the graphical install with the port 8006 appended, so it'd look something like https://10.0.0.1:8006.  Since I was new to Proxmox I decided a little support via abstraction wouldn't hurt, and so I chose to use the GUI instead of the command line.
 
-One warning here, I very briefly had a problem in trying to connect to the WUI.  I didn't realize it, but my browser had somehow ignored the HTTPS connections only rule and had created an insecure HTTP connection to the Proxmox IP.  That was the source of failure.  Proxmox requires TLS connections through HTTPS.  It only took a minute for me to figure out the problem and simply ensure that HTTPS showed in the address. 
+One warning here, I very briefly had a problem in trying to connect to the GUI.  I didn't realize it, but my browser had somehow ignored the HTTPS connections only rule and had created an insecure HTTP connection to the Proxmox IP.  That was the source of failure.  Proxmox requires TLS connections through HTTPS.  It only took a minute for me to figure out the problem and simply ensure that HTTPS showed in the address. 
 
 ### Shared Data Storage
 #### NFS Connections
-Setting up a shared data storage volume was also very easy through the WUI.  I decided to go with a NFS connection since I'm not worried about security and because I'm using Linux options for both the Proxmox host and the Network Attached Storage (NAS).  
+Setting up a shared data storage volume was also very easy through the GUI.  I decided to go with a NFS connection since I'm not worried about security and because I'm using Linux options for both the Proxmox host and the Network Attached Storage (NAS).  
 
 To begin, I made sure the left side menu had "Server View" selected.  I began by selecting the "Datatcenter" entry in the left side pane.  This in turn brought up options in the middle pane, one of which was for "Storage."  In that storage option it was as simple as  clicking the add button above the entries and selecting NFS from the drop-down.  
 
