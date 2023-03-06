@@ -58,12 +58,12 @@ For those keeping track, I'm using the instructions on setting up a bootable USB
 
 The command line instructions for creating a bootable usb are pretty interesting.  To find out what the exact path of your usb stick might be, instructions for Linux typically suggest running the lsblk command.  The folks over at OpenSUSE take this a step further in convenience, by  piping the output of a special lsblk command to a temporary file when the USB stick is unplugged/unmounted, and repeat for a second file when it is plugged in to the host.  They then run a diff command with a flag that compares the two to isolate what path your USB stick is on.  Without the USB:
 ```
-lsblk --fs >/tmp/withoutusb.txt
+lsblk --fs > /tmp/withoutusb.txt
 
 ```
 After plugging in the USB:
 ```
-lsblk --fs /tmp/withusb.txt
+lsblk --fs > /tmp/withusb.txt
 diff --ignore-space-change /tmp/withoutusb.txt /tmp/withusb.txt
 ```
 That last diff command should reveal the label assigned to the usb, identifying how to populate the output file field of the dd command that follows in the documentation.  I appreciate this attention to detail.
