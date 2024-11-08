@@ -18,58 +18,58 @@ Please note that I have not added screenshots for every step.
 
 ### Creating the GOAD Network in Proxmox
 By default, Proxmox VE will set up a network bridge in instances of on-premise/existing network infrastructure.  It'll look something like this:
-![](/assests/img/pre-net.png)
+![](/assets/img/pre-net.png)
 
 Now create the WAN and LAN networks by clicking on one of your nodes, selecting the "Network" option on the right, and then clicking on "Create" and selecting "Linux Bridge."  In the screenshots below, I've chosen a different subnet of 192.168.2.0/24 for the GOAD LAN and different VLAN tag numbers.
-![](/assests/img/2024-10-19_10-13_1.png)
-![](/assests/img/2024-10-22_13-04.png)
-![](/assests/img/2024-10-22_13-04_1.png)
+![](/assets/img/2024-10-19_10-13_1.png)
+![](/assets/img/2024-10-22_13-04.png)
+![](/assets/img/2024-10-22_13-04_1.png)
 Now create another Linux Bridge for the VLANs, but this time in the dialog box that comes up make sure that the "VLAN aware" box is selected.
 
-![](/assests/img/2024-11-08_08-02.png)
+![](/assets/img/2024-11-08_08-02.png)
 Next, create the two VLANs.
-![](/assests/img/2024-10-19_10-22.png)
+![](/assets/img/2024-10-19_10-22.png)
 
 Again, I'm going to select different VLAN ranges due to Mayfly277's selections conflicting with mine:
-![](/assests/img/2024-10-19_10-25.png)
-![](/assests/img/2024-10-19_10-25_1.png)
+![](/assets/img/2024-10-19_10-25.png)
+![](/assets/img/2024-10-19_10-25_1.png)
 When you are finished click the "Apply Configuration" button at the top
-![](/assests/img/2024-10-19_10-26.png)
+![](/assets/img/2024-10-19_10-26.png)
 
 By the end, your network setup might look like this:
-![](/assests/img/net_final.png)
+![](/assets/img/net_final.png)
 
 ### Create the pfSense VM
 I won't cover obtaining and uploading images, but for a refresher, try [Ben Heater's blog](https://benheater.com/proxmox-lab-getting-to-know-proxmox/).  To obtain the pfSense iso, Heater also identified a site where you can download the pfSense iso without handing over your [personal information](https://sgpfiles.netgate.com/mirror/downloads/?ref=benheater.com).
 
 Select one of the storage units under your node, and click the "ISO images" selection if you have it:
-![](/assests/img/2024-10-19_10-54_1.png)
+![](/assets/img/2024-10-19_10-54_1.png)
 
-![](/assests/img/2024-10-19_10-54.png)
+![](/assets/img/2024-10-19_10-54.png)
 
 
 Create the VM with the roughly the same specs as Mayfly277: 2 cores, 4 GB RAM, 32 GB storage, and select the ISO you just uploaded.  Otherwise accept defaults on all except on the *Network* tab.  
-![](/assests/img/2024-10-19_10-26_1.png)
+![](/assets/img/2024-10-19_10-26_1.png)
 
-![](/assests/img/2024-10-19_10-27.png)
-![](/assests/img/2024-10-19_10-28.png)
+![](/assets/img/2024-10-19_10-27.png)
+![](/assets/img/2024-10-19_10-28.png)
 
-![](/assests/img/2024-10-19_10-28_1.png)
+![](/assets/img/2024-10-19_10-28_1.png)
 
-![](/assests/img/2024-10-19_10-28_2.png)
+![](/assets/img/2024-10-19_10-28_2.png)
 
-![](/assests/img/2024-10-19_10-29.png)
+![](/assets/img/2024-10-19_10-29.png)
 
 
-![](/assests/img/2024-10-19_10-29_1.png)
+![](/assets/img/2024-10-19_10-29_1.png)
 At the Network tab, select "No network" to delete the automatically populated option (it was my local LAN in my case).
-![](/assests/img/2024-10-22_12-36.png)
+![](/assets/img/2024-10-22_12-36.png)
 
 Review the specs and ensure the box to start the vm after you are done is unchecked.
 
 Next, add the WAN (called vmbr1) and LAN (called vmbr2) Linux bridges you just created, as well as the VLAN (called vmbr3). 
-![](/assests/img/2024-10-19_10-31.png)
-![](/assests/img/2024-10-19_10-31_1.png)
+![](/assets/img/2024-10-19_10-31.png)
+![](/assets/img/2024-10-19_10-31_1.png)
 
 ### Initializing the pfSense VM
 Now start up the new pfSense VM.  This next part will consist of installing with a ZFS configuration, followed by an initial configuration of the WAN and LAN networks on the command line.
@@ -80,14 +80,14 @@ You'll see a boot up screen, and it'll automatically begin some basic configurat
 Then login and you'll install.  If it asks you for login credentials, use `installer:pfSense`.  Note: the screenshots below are from an OPNSense but they are really the same.
 
 Hit space bar to select the only option and tab to select "OK".
-![](/assests/img/2024-10-19_11-00_1.png)
+![](/assets/img/2024-10-19_11-00_1.png)
 Select yes.
-![](/assests/img/2024-10-19_11-00_2.png)
+![](/assets/img/2024-10-19_11-00_2.png)
 
-![](/assests/img/inst_load.png)
+![](/assets/img/inst_load.png)
 
 Once it's done installing, it'll give you the option to change the root password.  You should change the root password then select "Complete Install".
-![](/assests/img/2024-10-19_11-04.png)
+![](/assets/img/2024-10-19_11-04.png)
 
 #### Initial Network Assignments
 Once pfSense fully boots up, it'll go through some configuration and then reach a point where it start a manual interface assignment process on the command line.  The first question will be something like "Should VLANs be set up now?"  Skip those VLAN assignment questions, you'll deal with that later.  
@@ -95,20 +95,20 @@ Once pfSense fully boots up, it'll go through some configuration and then reach 
 Next, pfSense will automatically detect the three Linux bridges you created and assign them names like "vtnet0" according to their MAC addresses.  If you've forgotten which one is which, you can see the virtual bridges as they are numbered in the node network section of the Proxmox WUI.  That'll allow you to identify the vmbrXX number assigned to the interface.  With that, you can cross-reference how they correspond to hexadecimal addresses in the hardware tab for the pfSense VM.  With the hexidicimal go back to the pfSense command line and identify them according to the naming scheme pfSense offers.  
 
 Use the hexidecimal address to assign the vtnetXX to the correct interfaces for wan, lan, and optional for the vlan.  
-![](/assests/img/2024-10-21_14-45.png)
+![](/assets/img/2024-10-21_14-45.png)
 When you're through, it'll look something like this:
-![](/assests/img/2024-10-21_14-45_1.png)
+![](/assets/img/2024-10-21_14-45_1.png)
 
 Next you'll go through the IPv4 range assignments for WAN and LAN.  Select option 2 to do so.
-![](/assests/img/2024-10-21_14-55.png)
+![](/assets/img/2024-10-21_14-55.png)
 
 The WAN doesn't need DHCP in the first question; for the second, the interface address is 10.0.0.2; for the third, the CIDR is 30; for the fourth, for the gateway is 10.0.0.1; and finally say no to the IPv6 questions.  I chose HTTP instead of HTTPS, and was fine using the default for the WUI.
-![](/assests/img/2024-10-21_14-56.png)
-![](/assests/img/2024-10-21_14-58.png)
+![](/assets/img/2024-10-21_14-56.png)
+![](/assets/img/2024-10-21_14-58.png)
 
 For the LAN you say no DHCP; set the interface address to 192.168.2.2; select the CIDR of 24 for the range; skip the gateway; and no IPv6 options.  Default for the WUI was okay.  
-![](/assests/img/2024-10-21_15-26.png)
-![](/assests/img/2024-10-21_15-28.png)
+![](/assets/img/2024-10-21_15-26.png)
+![](/assets/img/2024-10-21_15-28.png)
 Now you are done with the initial network setup.  With some SSH tunneling we'll proceed to the WUI as laid out in the next section.
 
 ### Accessing the pfSense WUI
@@ -124,19 +124,19 @@ Now you can access the WUI at on your local machine at `http://127.0.0.1:8082`. 
 
 ### Using the pfSense Wizard
 Once you sign into the WUI you should be greeted with a wizard.  If not, look under the System dropdown for "Setup Wizard."
-![](/assests/img/2024-11-08_11-53.png)
+![](/assets/img/2024-11-08_11-53.png)
 
 Select a domain name, and make sure the box for "Allow DNS servers to be overridden by DHCP..." is ticked.  Additionally, for my network setup I had to specify my DNS server that is seperate from my router.  That setup is a tad unusual, it may not apply to all use cases.
-![](/assests/img/2024-11-08_11-53_1.png)
+![](/assets/img/2024-11-08_11-53_1.png)
 
 On the next page accept the default NTP servers and select your time zone.  Then on the WAN interface keep static IP 10.0.0.2/30 with gateway 10.0.0.1.
-![](/assests/img/2024-11-08_11-54.png)
+![](/assets/img/2024-11-08_11-54.png)
 
 And uncheck the block RFC1918 private network.
-![](/assests/img/2024-11-08_11-54_1.png)
+![](/assets/img/2024-11-08_11-54_1.png)
 
 Keep the LAN as you set it in the previous step above. 
-![](/assests/img/2024-11-08_11-54_2.png)
+![](/assets/img/2024-11-08_11-54_2.png)
 Change the password for root if you haven't already.  Finally, click reload.
 
 Go to the System dropdown -> Advanced -> Networking tab -> Under the section Network interfaces check the “Disable hardware checksum offloading” box.
@@ -155,7 +155,7 @@ Configure the WAN firewall interface: Firewall > Rules > WAN to allow an ssh tun
 Next, we'll add a block rule.  
 
 While I don't have a screenshot of what the firewall rule for the WAN interface looks like at this point, I do have the following photo from a later point in the configuration (it only adds another exception for the provisioning ssh tunnel).
-![](/assests/img/2024-10-28_08-38.png)
+![](/assets/img/2024-10-28_08-38.png)
 
 Next we'll switch to the Proxmox command line and follow Mayfly277's NAT adaptations (see his post for explinations):
 ```
@@ -197,41 +197,41 @@ post-up iptables-restore < /etc/network/save-iptables
 
 #### VLANs
 Now we create the VLAN interfaces by heading to the Interfaces dropdown -> VLANs and clicking the add buttom on the bottom right.
-![](/assests/img/2024-11-08_13-09.png)
+![](/assets/img/2024-11-08_13-09.png)
 Select VLAN bridge (opt1) as the parent interface, and put in the first tag of 30 with a description.  
 
 Do the same again, but with a VLAN tag of 40 or whatever number you're using. 
-![](/assests/img/2024-11-08_13-08.png)
+![](/assets/img/2024-11-08_13-08.png)
 
 
 Then select the Interfaces dropdown -> Assignments and use the add button on the bottom right twice to add each of the VLANs you just created to the interfaces.  You may have to hit apply settings.  When you're finished, it should look like this:
-![](/assests/img/2024-10-28_08-07.png)
+![](/assets/img/2024-10-28_08-07.png)
 
 Then click on OPT2 on the right side and ensure the interface enabled box is checked at the top and that the IPv4 configuration type is set to static.  Do the same for OPT3.  You may have to apply changes after you save each time.
-![](/assests/img/2024-11-08_13-14.png)
+![](/assets/img/2024-11-08_13-14.png)
 
 
 ##### DHCPs
 Now we'll enable the DHCP servers on the VLANs.  Go to Services > DHCP Server and click on one of the VLAN tabs (in this photo I hadn't yet named them so they appear as OPT2 and OPT3).  Ensure the "enable DHCP server on VLANXX interface" box is checked for the first, and enter in the range 192.168.xx.100-192.168.xx.254 replacing xx with your tag number.  Same for the second VLAN but with the different tag number.  Apply changes after each.
-![](/assests/img/2024-10-28_08-14.png)
-![](/assests/img/2024-10-28_08-16.png)
-![](/assests/img/2024-10-28_08-17.png)
-![](/assests/img/2024-10-28_08-17_1.png)
+![](/assets/img/2024-10-28_08-14.png)
+![](/assets/img/2024-10-28_08-16.png)
+![](/assets/img/2024-10-28_08-17.png)
+![](/assets/img/2024-10-28_08-17_1.png)
 
 ##### VLAN Firewalls
 Now we'll create an alias before setting up the VLAN firewall rules.
 
 Head to Firewall -> Aliases -> green add button on bottom right.  Give it a name, *INTERNAL*, and add the networks and VPN as seen below but changing for your GOAD LAN network:
-![](/assests/img/2024-10-28_08-19.png)
+![](/assets/img/2024-10-28_08-19.png)
 
 Apply changes.
-![](/assests/img/2024-10-28_08-19_1.png)
+![](/assets/img/2024-10-28_08-19_1.png)
 
 Now set up the firewall using the alias by heading to Firewall -> Rules -> LAN and adding a rule.  You'll enter the first of VLAN subnets as the source and invert match for the destination of an alias to the INTERNAL alias.
-![](/assests/img/2024-10-28_08-26.png)
+![](/assets/img/2024-10-28_08-26.png)
 
 Then your LAN rules should look like this:
-![](/assests/img/2024-10-28_08-32.png)
+![](/assets/img/2024-10-28_08-32.png)
 I'm going to deviate from Mayfly277's guide and end this post at this point for the sake of clarity.
 
 ## Initial Networking Complete
