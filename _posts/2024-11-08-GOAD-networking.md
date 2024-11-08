@@ -4,11 +4,11 @@ author: Chris
 title: "Installing Game of Active Directory on Proxmox: Part 1 - Networking"
 date: 2024-11-08
 ---
-## Scope of This Series
-In this series of blog posts I'm going to detail how to install [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In these posts I closely follow [Mayfly277's canoncial guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com), except that I configure GOAD on a locally hosted Proxmox VE server with an already established default network bridge connected to a true LAN.  So if you're having trouble you may want to visit [Mayfly277's blog](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com) to compare and correlate our steps to identify where your setup may differ from each of ours.
+### Scope of This Series
+In this series of blog posts I detail how to install [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  These posts closely follow [Mayfly277's canoncial guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install), except that I configure GOAD on a locally hosted Proxmox VE server with an already established default network bridge connected to a true LAN.  So if you're having trouble, whether with my guide or Mayfly277's, you may want to visit [Mayfly277's blog](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install) to compare and correlate our steps to identify where your setup may differ from each of ours.
 
 ### Rationale
- Why write another guide when [Mayfly277's guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com) is solid?  First, while Mayfly277's guide isn't exactly out of date, technology is always moving and another set of current instructions couldn't hurt.  Second, Mayfly277's guide focuses on a VPS setup using Proxmox, while this one details a home-lab, bare-metal install of Proxmox.  Third, using Proxmox with GOAD, while perhaps easier than installing all of the Windows machines and setting up AD manually, is still sufficiently complicated that I would have benefited from having more than one set of detailed instructions.  So I intentionally mirror [Mayfly277's guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com) in order to give readers a comprehensive set of slightly differently written resources to draw from.
+ Why write another guide when [Mayfly277's guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install) is solid?  First, while Mayfly277's guide isn't exactly out of date, technology is always moving and another set of current instructions couldn't hurt.  Second, Mayfly277's guide focuses on a VPS setup using Proxmox, while this one details a home-lab, bare-metal install of Proxmox.  Third, using Proxmox with GOAD, while perhaps easier than installing all of the Windows machines and setting up AD manually, is still sufficiently complicated that I would have benefited from having more than one set of detailed instructions.  So I intentionally mirror [Mayfly277's guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install) in order to give readers a comprehensive set of slightly differently written resources to draw from.
 
 That said, this blog won't cover steps dealing with Proxmox VE installation and configuration.  I've covered how to [install proxmox](https://christopherbauer.org/2022/12/29/starting-proxmox.html) elsewhere, and in any case, it'd make this series unremitting to include the Proxmox config, the downloading and loading of isos, as well as all of the GOAD-specific setup.  Instead I'll cover how to use an existing Proxmox VE installation to install pfSense and the other requirements for GOAD.
 
@@ -40,7 +40,7 @@ By the end, your network setup might look like this:
 ![](/assets/img/net_final.png)
 
 ### Create the pfSense VM
-I won't cover obtaining and uploading images, but for a refresher, try [Ben Heater's blog](https://benheater.com/proxmox-lab-getting-to-know-proxmox/).  To obtain the pfSense iso, Heater also identified a site where you can download the pfSense iso without handing over your [personal information](https://sgpfiles.netgate.com/mirror/downloads/?ref=benheater.com).
+I won't cover obtaining and uploading images, but for a refresher, try [Ben Heater's blog](https://benheater.com/proxmox-lab-getting-to-know-proxmox/).  To obtain the pfSense iso, Heater also identified a site where you can download the pfSense iso without handing over your [personal information](https://sgpfiles.netgate.com/mirror/downloads).
 
 Select one of the storage units under your node, and click the "ISO images" selection if you have it:
 ![](/assets/img/2024-10-19_10-54_1.png)
@@ -238,7 +238,7 @@ I'm going to deviate from Mayfly277's guide and end this post at this point for 
 That wraps up the initial portion of the networking configuration.  Next we'll work on creating the provisioning machine and its unique networking needs.
 
 ## Resources
-- [Mayfly277's blog](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com)
+- [Mayfly277's blog](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install)
 - [Ben Heater's blog](https://benheater.com/proxmox-lab-goad-environment-setup/)
 - Orange-Cyberdefense's [GitHub Repo](https://github.com/Orange-Cyberdefense/GOAD)
 - Orange-Cyberdefense's [Proxmox instructions](https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md)
