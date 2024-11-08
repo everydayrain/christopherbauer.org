@@ -3,6 +3,8 @@ layout: default
 title: Projects
 ---
 
+- [Network Design and Install for Game of Active Directory using Proxmox VE](https://christopherbauer.org/2024/11/08/GOAD-networking.html)
+
 - [Proxmox Homlab Design & Preliminary Install](https://christopherbauer.org/2022/12/29/starting-proxmox.html)
 
 - [A Basic LAMP Stack Install Guide](https://christopherbauer.org/2022/11/08/lamp-install.html)
