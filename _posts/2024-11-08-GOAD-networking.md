@@ -241,4 +241,4 @@ That wraps up the initial portion of the networking configuration.  Next we'll w
 - [Mayfly277's blog](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com)
 - [Ben Heater's blog](https://benheater.com/proxmox-lab-goad-environment-setup/)
 - Orange-Cyberdefense's [GitHub Repo](https://github.com/Orange-Cyberdefense/GOAD)
-- " " [proxmox instructions](https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md)
+- Orange-Cyberdefense's [Proxmox instructions](https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md)
