@@ -24,15 +24,17 @@ Now create the WAN and LAN networks by clicking on one of your nodes, selecting 
 ![](/assets/img/2024-10-19_10-13_1.png)
 ![](/assets/img/2024-10-22_13-04.png)
 ![](/assets/img/2024-10-22_13-04_1.png)
-Now create another Linux Bridge for the VLANs, but this time in the dialog box that comes up make sure that the "VLAN aware" box is selected.
 
+Now create another Linux Bridge for the VLANs, but this time in the dialog box that comes up make sure that the "VLAN aware" box is selected.
 ![](/assets/img/2024-11-08_08-02.png)
+
 Next, create the two VLANs.
 ![](/assets/img/2024-10-19_10-22.png)
 
 Again, I'm going to select different VLAN ranges due to Mayfly277's selections conflicting with mine:
 ![](/assets/img/2024-10-19_10-25.png)
 ![](/assets/img/2024-10-19_10-25_1.png)
+
 When you are finished click the "Apply Configuration" button at the top
 ![](/assets/img/2024-10-19_10-26.png)
 
