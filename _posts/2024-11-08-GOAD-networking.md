@@ -20,7 +20,7 @@ Please note that I have not added screenshots for every step.
 By default, Proxmox VE will set up a network bridge in instances of on-premise/existing network infrastructure.  It'll look something like this:
 ![](/assets/img/pre-net.png)
 
-Now create the WAN and LAN networks by clicking on one of your nodes, selecting the "Network" option on the right, and then clicking on "Create" and selecting "Linux Bridge."  In the screenshots below, I've chosen a different subnet of 192.168.2.0/24 for the GOAD LAN and different VLAN tag numbers.\
+Now create the WAN and LAN networks by clicking on one of your nodes, selecting the "Network" option on the right, and then clicking on "Create" and selecting "Linux Bridge."  In the screenshots below, I've chosen a different subnet of 192.168.2.0/24 for the GOAD LAN and different VLAN tag numbers.
 
 ![](/assets/img/2024-10-19_10-13_1.png)
 ![](/assets/img/2024-10-22_13-04.png)
