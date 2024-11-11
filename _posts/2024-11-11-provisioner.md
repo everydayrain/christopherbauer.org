@@ -54,7 +54,7 @@ Then you should be able to SSH into the provisioner using `ssh goadprovisioning`
 ## Configuring the Provisioner 
 Now we can start the Provisioner to begin configuring Packer, Terriform and Ansible.  Should you need more detail, [Mayfly277](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/#install-packer) offers links to the original install instructions for each vendor.
 
-#### Packer Install
+### Packer Install
 As usual, it's good practice to update and upgrade once you've got it up and running for the first time.
 ```
 apt update && apt upgrade
@@ -85,7 +85,7 @@ apt update && apt install packer
 Now you can enter `packer -v` and get a valid response.
 ![](/assets/img/2024-10-28_08-58.png)
 
-#### Terraform Install
+### Terraform Install
 Following Mayfly277's instructions, I had no problems with this section.  Enter the following commands to install the GPG keys, verify them, add the Terraform repository, and then install Terraform.
 ```
 wget -O- https://apt.releases.hashicorp.com/gpg | \ 
@@ -130,10 +130,10 @@ apt update && apt install terraform
 Now you can enter `terraform -v` and get a valid response.
 ![](/assets/img/2024-10-28_09-01.png)
 
-#### Ansible Install
+### Ansible Install
 As per [this documentation](https://orange-cyberdefense.github.io/GOAD/installation/linux/#__tabbed_1_5) we have to install an older version of Python, Python 3.10, before we can proceed with this section.  Additionally, Debian derivatives have disabled the ability to use pip in exchange for apt based python package management.  This may or may not affect readers depending on the distro you are using.  In any event, I was unable to use Mayfly277's guide for this section.
 
-##### Python 3.10 Install and Venv
+#### Python 3.10 Install and Venv
  Instead of using apt for the Python packages, I use virtual environments.  A drawback to this approach is that if you need to go come back to the provisioner at a later point to redo something Python-related, you'll have to first enter the virtual environment with `source .venv/GOAD/bin/activate`.  An alternative to this cumbersome process would be to use something like pipx, though that is outside the scope of this blog.  In what follows I use the virtual environments approach.
 
 First we'll add a repositorysitory with older versions of python.
@@ -145,7 +145,7 @@ Next, we'll Install Python 3.10.
 Then we'll make sure we can create virtual environments by installing the version appropriate venv package from apt as well.
 ![](/assets/img/2024-10-28_10-41_2.png)
 
-###### Virtual Environment-Based Package Install
+##### Virtual Environment-Based Package Install
 Now we can begin installing by creating a virtual environment for GOAD for the packages.  Do that first by making sure you are in the root directory of the provisioner and entering:
 ```
 python3.10 -m venv .venv/GOAD
@@ -178,7 +178,7 @@ ansible --version
 ```
 
 
-###### Troubleshooting
+##### Troubleshooting
 It was at this point that I started to encounter problems related to missing ansible-galaxy components.  To troubleshoot, I decided to use Orange Cyberdefense's [checker script](https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md).  The checker script is also the primary script used in the next phase for provisioning, and therefore this troubleshooting step coinicded with  Mayfly277's guide to clone the GOAD GitHub repository.
 ```
 cd /root 
