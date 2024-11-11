@@ -27,7 +27,7 @@ Then proceed through the other tabs.  I gave my provisioner 4 GB of memory, 2 co
 ### Provisioner Networking
 As in the [previous post](https://christopherbauer.org/2024/11/08/GOAD-networking.html), I don't have a screen shot of creating the WAN firewall rule for the provisioner to allow an SSH tunnel, however you can gleam the settings from the following screenshot of the final state of my WAN firewall.
 
-![](/assets/2024-10-28_08-38.png)
+![](/assets/img/2024-10-28_08-38.png)
 
 Apply changes after you've added the firewall rule.
 
@@ -75,7 +75,7 @@ apt-add-repositorysitory "deb [arch=amd64] https://apt.releases.hashicorp.com $(
 ```
 
 That should create an output that looks like the following:
-![](/assets/2024-10-28_08-59.png)
+![](/assets/img/2024-10-28_08-59.png)
 
 Now you can install:
 ```
@@ -83,7 +83,7 @@ apt update && apt install packer
 ```
 
 Now you can enter `packer -v` and get a valid response.
-![](/assets/2024-10-28_08-58.png)
+![](/assets/img/2024-10-28_08-58.png)
 
 #### Terraform Install
 Following Mayfly277's instructions, I had no problems with this section.  Enter the following commands to install the GPG keys, verify them, add the Terraform repository, and then install Terraform.
@@ -128,7 +128,7 @@ apt update && apt install terraform
 ```
 
 Now you can enter `terraform -v` and get a valid response.
-![](/assets/2024-10-28_09-01.png)
+![](/assets/img/2024-10-28_09-01.png)
 
 #### Ansible Install
 As per [this documentation](https://orange-cyberdefense.github.io/GOAD/installation/linux/#__tabbed_1_5) we have to install an older version of Python, Python 3.10, before we can proceed with this section.  Additionally, Debian derivatives have disabled the ability to use pip in exchange for apt based python package management.  This may or may not affect readers depending on the distro you are using.  In any event, I was unable to use Mayfly277's guide for this section.
@@ -137,33 +137,33 @@ As per [this documentation](https://orange-cyberdefense.github.io/GOAD/installat
  Instead of using apt for the Python packages, I use virtual environments.  A drawback to this approach is that if you need to go come back to the provisioner at a later point to redo something Python-related, you'll have to first enter the virtual environment with `source .venv/GOAD/bin/activate`.  An alternative to this cumbersome process would be to use something like pipx, though that is outside the scope of this blog.  In what follows I use the virtual environments approach.
 
 First we'll add a repositorysitory with older versions of python.
-![](/assets/2024-10-28_10-40.png)
+![](/assets/img/2024-10-28_10-40.png)
 
 Next, we'll Install Python 3.10.
-![](/assets/2024-10-28_10-41_1.png)
+![](/assets/img/2024-10-28_10-41_1.png)
 
 Then we'll make sure we can create virtual environments by installing the version appropriate venv package from apt as well.
-![](/assets/2024-10-28_10-41_2.png)
+![](/assets/img/2024-10-28_10-41_2.png)
 
 ###### Virtual Environment-Based Package Install
 Now we can begin installing by creating a virtual environment for GOAD for the packages.  Do that first by making sure you are in the root directory of the provisioner and entering:
 ```
 python3.10 -m venv .venv/GOAD
 ```
-![](/assets/2024-10-28_10-42.png)
+![](/assets/img/2024-10-28_10-42.png)
 
 Then source the virtual environment.  This will cause your environment to be prefaced by `(goad)` to signal you're in it.
 ```
 source .venv/GOAD/bin/activate
 ```
-![](/assets/2024-10-28_10-42_2.png)
+![](/assets/img/2024-10-28_10-42_2.png)
 
 Now install the packages.
 ```
 .venv/GOAD/bin/pip install ansible-core==2.12.6
 ```
 
-![](/assets/2024-10-28_10-43.png)
+![](/assets/img/2024-10-28_10-43.png)
 ```
 .venv/GOAD/bin/pip install pywinrm
 ```
@@ -198,15 +198,15 @@ In my case, the check script suggested running ansible-galaxy on the requirement
 ansible-galaxy install -r ansible/requirements.yml
 ```
 
-![](/assets/2024-10-28_10-58.png)
+![](/assets/img/2024-10-28_10-58.png)
 
 After that, I re-checked with the goad.sh script and received a green light.
-![](/assets/2024-10-28_10-58_1.png)
+![](/assets/img/2024-10-28_10-58_1.png)
 
 ## Creating a Proxmox Pool
 Lastly, Mayfly277 doesn't mention the need for a Proxmox pool in the guide, but subsequent steps seem to rely upon a pool.   Now is a good time to head over to the WUI and select the Datacenter entry on the left-hand menu.  Under Permissions drop-down in the center menu you should see an entry "pools."  Click the create button and give it the name "GOAD."
 
-![](/assets/2024-10-28_14-04_1.png)
+![](/assets/img/2024-10-28_14-04_1.png)
 
 ## Provisioner Machine Creation Complete
 That wraps up the creation of the provisioner machine.  Next we'll work on creating the template with packer.
