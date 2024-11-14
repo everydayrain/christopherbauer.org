@@ -4,7 +4,7 @@ author: Chris
 title: "Installing Game of Active Directory on Proxmox: Part 3 - Templating"
 date: 2024-11-14
 ---
-This is Part III of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In my the [second part](https://christopherbauer.org/2024/11/11/provisioner.html) I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we'll create templates  for future deployment of the individual AD DCs and servers.
+This is Part III of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In the [second installment](https://christopherbauer.org/2024/11/11/provisioner.html) I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we'll create templates  for future deployment of the individual AD DCs and servers.
 
 As I mentioned before, I'm deeply indebted to [Mayfly277's canonical guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com), and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277's guide.
 
@@ -12,8 +12,8 @@ Should you need more orientation to the context of this series, or on my rationa
 
 ## Preparation
 
-### Obtain the Windows Iso
-First we'll need to obtain the Windows isos to serve as the basis of the templates.  Mayfly277 helpfully identified [registration-free](https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#download-the-isos) links to those isos, so I recommend going directly to his guide for those links.  You can either download them to your local machine and subsquently upload them to Proxmox, or you can download them directly to Proxmox in the web user interface (WUI).
+### Obtain the Windows ISOs
+First we'll need to obtain the Windows ISOs to serve as the basis of the templates.  Mayfly277 helpfully identified [registration-free](https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#download-the-isos) links to those ISOs, so I recommend going directly to his guide for those links.  You can either download them to your local machine and subsquently upload them to Proxmox, or you can download them directly to Proxmox in the web user interface (WUI).
 
 ### Obtain the Cloudbase-init
 Returning to the provisioner machine, download the cloudbase-init service files to initialize and configure the Windows machines.
@@ -28,7 +28,7 @@ wget https://cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi
 ![](/assets/img/2024-10-28_11-01.png)
 
 ### Create a User in Proxmox
-We need to create a dedicated user for the steps that follow.  Mayfly277 suggests two options, either a user with limited privileges or a user with admin privileges.  I ultimately was forced to add admin privileges as I got the 403 error that Mayfly277 mentioned in their guide.  It may make sense to take the route of applying admin privileges from the start if you wish to avoid these problems later.  Admin privileges are outlined in the last command below.
+We need to create a dedicated user for the steps that follow.  Mayfly277 suggests two options, either a user with limited privileges or a user with admin privileges.  I was ultimately forced to add admin privileges as I got the 403 error that Mayfly277 mentioned in their guide.  You'll have to decide what is sensible for your context. Admin privileges are outlined in the last command below.
 
 To create the user and packer privileges, on the Proxmox command line enter the following commands in sequence.
 ```
@@ -64,14 +64,14 @@ cp config.auto.pkrvars.hcl.template config.auto.pkrvars.hcl
 
 I next used a little trial and error to follow Mayfly277's instructions on modifying config.auto.pkrvars.hcl.  Mayfly277 says "*The config.auto.pkrvars.hcl file will contain all the informations [sic] needed by packer to contact the proxmox api.*"  To interpret that a bit, I changed the following in the file: 
 
-- "proxmox_url" -> I set this to the gateway of GOAD LAN `192.168.2.1:8006` so that it'd be translated by NAT to Proxmox as we completed in [step I](https://christopherbauer.org/2024/11/08/GOAD-networking.html)
+- "proxmox_url" -> I set this to the gateway of GOAD LAN `192.168.2.1:8006` so that it'd be translated by NAT to Proxmox as we completed in [part 1](https://christopherbauer.org/2024/11/08/GOAD-networking.html)
 - "proxmox_username" -> change this to the user you created above
 - "proxmox_password" -> change this to the user you created above
-- "proxmox_node" -> the name of my home Proxmox node
+- "proxmox_node" -> changed to the name of the home Proxmox node
 - "proxmox_vm_storage" -> storage for the machines you'll create
 
-### Creating Custom Isos for the Template
-For this step we'll create an iso file for use with the template through a custom script that is located in the GOAD repository on the provisioner machine.
+### Creating Custom ISOs for the Template
+For this step we'll create an ISO file for use with the template through a custom script that is located in the GOAD repository on the provisioner machine.
 ```
 cd /root/GOAD/packer/proxmox/
 ```
@@ -81,7 +81,7 @@ cd /root/GOAD/packer/proxmox/
 ```
 Mayfly277 [describes what's going on](https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files) with the script and understands it far better than I do.  If you'd like to understand the inner workings before running it, head over [there](https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files).
 
-Once the script runs and the iso file has been created, we'll transfer it to Proxmox with scp.  For this step, Mayfly277 remarks "*the cloudinit iso file is pretty large we will copy it from the proxmox ssh access*."  However, if you set up key-only access to the provisioner in the [previous post in this series](https://christopherbauer.org/2024/11/11/provisioner.html), you won't be able to use scp.  You can do the unthinkable and transfer the private key you use to access the provisioner container to your Proxmox host in order to do this. Or simply set up a password for SSH on the provisioner container. 
+Once the script runs and the ISO file has been created, we'll transfer it to Proxmox with scp.  For this step, Mayfly277 remarks "*the cloudinit iso file is pretty large we will copy it from the proxmox ssh access*."  However, if you set up key-only access to the provisioner in the [previous post in this series](https://christopherbauer.org/2024/11/11/provisioner.html), you won't be able to use scp.  You can do the unthinkable and transfer the private key you use to access the provisioner container to your Proxmox host in order to do this.  But that'd be a bad habit to get into, even if only on your LAN. It may be better practice to simply set up a password for SSH on the provisioner container. 
 
 To transfer using scp and a password, enter the Proxmox command line.
 ```
@@ -101,11 +101,13 @@ cd /var/lib/vz/template/iso
 wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
 ```
 
-With that you should have isos named "scripts_withcloudinit.iso" and "virtio-win.iso" visible in your Proxmox WUI storage.
+With that you should have ISOs named "scripts_withcloudinit.iso" and "virtio-win.iso" visible in your Proxmox WUI storage.
 ![](/assets/img/2024-11-11_10-14.png)
 
 ### Modifying packer.pkr.hcl 
-Mayfly277 says "*A generic packer.pkr.hcl file is present in GOAD folder* ."  That path is `/root/GOAD/packer/proxmox/packer.json.pkr.hcl`.  I modified the packer.pkr.hcl file so that the "vlan_tag" entry read "30" according to how I set up the networking in my [first post](https://christopherbauer.org/2024/11/08/GOAD-networking.html).
+Mayfly277 says "*A generic packer.pkr.hcl file is present in GOAD folder* ."  That path is `/root/GOAD/packer/proxmox/packer.json.pkr.hcl`.  
+
+I modified the packer.pkr.hcl file so that the "vlan_tag" entry read "30" according to how I set up the networking in my [first post](https://christopherbauer.org/2024/11/08/GOAD-networking.html).
 
 ### Modifying the Individual Computer Config Files
 Next we'll modify the packer files for the individual templates.  Before we begin, it'd be helpful to have the sha256 hashes for a couple of dependent files referenced in the packer files.  To collect those, head to the provisioner machine.
@@ -135,7 +137,7 @@ I left most settings in that file alone.  Do enter the hash you derived for the 
 vm_disk_format = "qcow2"
 ```
 
-Then do the same process but using the second hash on windows_server2019_proxmox_cloudinit.pkvars.hcl.
+Then do the same process but using the second hash for the file windows_server2019_proxmox_cloudinit.pkvars.hcl.
 
 Here are the specs for the two files that I ended up with.  The 2016 .hcl file appears below as the first screenshot, and the 2019 .hcl file appears below as the second.
 ![](/assets/img/2024-11-11_10-23.png)
@@ -175,6 +177,5 @@ With that we've created the templates and are ready to create machines with Terr
 
 ## Resources
 - [Mayfly277's blog](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com)
-- [Ben Heater's blog](https://benheater.com/proxmox-lab-goad-environment-setup/)
 - Orange-Cyberdefense's [GitHub Repo](https://github.com/Orange-Cyberdefense/GOAD)
-- " " [proxmox instructions](https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md)
+- Orange-Cyberdefense's [proxmox instructions](https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md)
