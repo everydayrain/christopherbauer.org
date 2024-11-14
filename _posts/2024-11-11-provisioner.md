@@ -4,7 +4,7 @@ author: Chris
 title: "Installing Game of Active Directory on Proxmox: Part 2 - Provisioner"
 date: 2024-11-11
 ---
-This entry consists of Part II of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In my [previous post](https://christopherbauer.org/2024/11/08/GOAD-networking.html), I covered networking for the entire Active Directory setup.  In this post we'll create a Linux provisioner machine on the LAN that will later be responsible for creating, deploying and configuring the Active Directory DCs and servers.
+This entry consists of Part 2 of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In my [previous post](https://christopherbauer.org/2024/11/08/GOAD-networking.html), I covered networking for the entire Active Directory setup.  In this post we'll create a Linux provisioner machine on the LAN that will later be responsible for creating, deploying and configuring the Active Directory DCs and servers.
 
 As I mentioned before, I'm deeply indebted to [Mayfly277's canonical guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com), and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277's work.
 
