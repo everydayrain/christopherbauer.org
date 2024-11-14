@@ -28,7 +28,7 @@ wget https://cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi
 ![](/assets/img/2024-10-28_11-01.png)
 
 ### Create a User in Proxmox
-We need to create a dedicated user for the steps that follow.  Mayfly277 suggests two options, either a user with limited privileges or a user with admin privileges.  I was ultimately forced to add admin privileges as I got the 403 error that Mayfly277 mentioned in their guide.  You'll have to decide what is sensible for your context. Admin privileges are outlined in the last command below.
+We need to create a dedicated user for the steps that follow.  Mayfly277 suggests two options, either a user with limited privileges or a user with admin privileges.  I was ultimately forced to add admin privileges as I got the 403 error that Mayfly277 mentioned in their guide.  Ordinarily I'd advise against giving admin privileges out unless absolutely necessary, but in this case Mayfly277 himself uses admin privileges in later steps, so it may make sense to implement them here.  In any event, I'll add both privileged and non-privileged options. Admin privileges are outlined in the last command below.
 
 To create the user and packer privileges, on the Proxmox command line enter the following commands in sequence.
 ```
