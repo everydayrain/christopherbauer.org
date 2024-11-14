@@ -4,7 +4,7 @@ author: Chris
 title: "Installing Game of Active Directory on Proxmox: Part 3 - Templating"
 date: 2024-11-14
 ---
-This is Part III of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In the [second installment](https://christopherbauer.org/2024/11/11/provisioner.html) I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we'll create templates  for future deployment of the individual AD DCs and servers.
+This is Part 3 of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In the [second installment](https://christopherbauer.org/2024/11/11/provisioner.html) I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we'll create templates  for future deployment of the individual AD DCs and servers.
 
 As I mentioned before, I'm deeply indebted to [Mayfly277's canonical guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com), and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277's guide.
 
