@@ -3,8 +3,8 @@
 source 'https://rubygems.org'
 
 group :jekyll_plugins do
-  gem "github-pages", "~> 209"
-  gem "jekyll-feed", "~> 0.12"
+  gem "github-pages"
+  gem "jekyll-feed"
   gem "jekyll-remote-theme"
 end
 
