@@ -1,6 +1,7 @@
 title: Imaginative Realities
 description: Cyber Security and Stray Thoughts
 repository: everydayrain/everydayrain.github.io
+github: [metadata]
 show_downloads: false
 remote_theme: pages-themes/hacker
 plugins:
