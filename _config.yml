@@ -3,7 +3,7 @@ logo:
 description: Stray thoughts, InfoSec and Anthropology notes
 show_downloads: false
 google_analytics:
-remote_theme: pages-themes/midnight@v0.2.0
+remote_theme: alshedivat/al-folio
 plugins:
 - jekyll-feed
 - jekyll-remote-theme
