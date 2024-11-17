@@ -3,11 +3,6 @@
 source 'https://rubygems.org'
 
 group :jekyll_plugins do
-  gem "github-pages"
-  gem "jekyll-feed"
-  gem "jekyll-remote-theme"
+  gem "github-pages",  "~> 232"
 end
 
-# gemspec
-
-gem "minima"

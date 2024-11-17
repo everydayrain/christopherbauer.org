@@ -3,7 +3,7 @@ description: Cyber Security and Stray Thoughts
 repository: everydayrain/everydayrain.github.io
 github: [metadata]
 show_downloads: false
-remote_theme: pages-themes/hacker
+theme: jekyll-theme-midnight
 plugins:
-- jekyll-feed
-- jekyll-remote-theme
+  - jekyll-feed
+  - jekyll-remote-theme
