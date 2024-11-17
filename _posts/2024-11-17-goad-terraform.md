@@ -38,7 +38,7 @@ cd /root/GOAD/ad/GOAD/providers/proxmox/terraform
 cp variables.tf.template variables.tf
 ```
 
-Next we'll modify the file to our specifications.  Mayfly277 [lays out the full specifications](https://mayfly277.github.io/posts/GOAD-on-proxmox-part3-terraform/#configure-terraform) for the file, so rather than recapitulate the entire file, I'll simply review what I changed.  I had to modify the following in the variables.tf file.
+Next we'll modify the file to our specifications.  Mayfly277 [lays out the full specifications](https://mayfly277.github.io/posts/GOAD-on-proxmox-part3-terraform/#configure-terraform) in the code, so rather than reproduce the entire file, I'll simply review what I changed.  I had to modify the following in the variables.tf file.
 
 - the vlan tag (according to my [unique arrangement](https://christopherbauer.org/2024/11/08/GOAD-networking.html), yours may differ)
 - node name
@@ -70,6 +70,7 @@ terraform apply "goad.plan"
 ```
 
 Now you should see five new VMs withe the names you specified in goad.tf in the Proxmox web user interface.
+
 ![](/assets/img/2024-11-14_15-16.png)
 
 Troubleshooting note: if you find that it takes an unacceptably long time to complete the Terraform build, ask yourself what storage you selected in [part 3](https://christopherbauer.org/2024/11/14/templates.html) when you modified the config.auto.pkrvars.hcl file.  If it wasn't local-lvm, that might have something to do with it.
