@@ -51,7 +51,7 @@ Next we'll modify the file to our specifications.  Mayfly277 [lays out the full 
 Now we'll modify the goad.tf file in the same directory.  
 
 I had to modify that file under the section starting with *`variable "vm_config"`*.  I changed the static IPs of the five machines to reflect the VLAN subnet they were on (according to my [unique arrangement](https://christopherbauer.org/2024/11/08/GOAD-networking.html), if you followed Mayfly277's instructions this step will be unnecessary).
-![](/assets/img2024-10-28_15-37.png)
+![](/assets/img/2024-10-28_15-37.png)
 
 ## Deploy the AD VMs
 Now we're ready to create the VM's using Terraform.  We'll first initialize, then run a plan to create an output for the Terraform run.
@@ -70,7 +70,7 @@ terraform apply "goad.plan"
 ```
 
 Now you should see five new VMs withe the names you specified in goad.tf in the Proxmox web user interface.
-![](/assets/img2024-11-14_15-16.png)
+![](/assets/img/2024-11-14_15-16.png)
 
 Troubleshooting note: if you find that it takes an unacceptably long time to complete the Terraform build, ask yourself what storage you selected in [part 3](https://christopherbauer.org/2024/11/14/templates.html) when you modified the config.auto.pkrvars.hcl file.  If it wasn't local-lvm, that might have something to do with it.
 
