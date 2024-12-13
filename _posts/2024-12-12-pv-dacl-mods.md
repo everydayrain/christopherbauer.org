@@ -11,7 +11,7 @@ Ever come across an edge description in Boodhound on DACL abuse?  They tend to l
 The Windows abuse instructions on the edge tend to offer two ways to proceed, either using *net group* from net.exe or PowerView.  I've always used the net.exe method, but they recommend PowerView because the opsec for net.exe is challenging. 
 
 ![](/assets/img/2024-12-12_08-59.png)
-I was curious to play around with PowerView's *Add-DomainGroupMember* to have another option in my toolbox and find out more about this improved opsec.  Unfortunately, and I've run into this Bloodhound description a few times to know that the steps for the PowerView method aren't quite as clearly laid out in the Bloodhound description as they could be.  I don't think it's Bloodhound's fault, as the [original instructions](https://powersploit.readthedocs.io/en/latest/Recon/Add-DomainGroupMember/) aren't effusive by any means.
+I was curious to play around with PowerView's *Add-DomainGroupMember* to have another option in my toolbox and find out more about this improved opsec.  Unfortunately, I've run into this Bloodhound description enough times to know that the steps for the PowerView method aren't quite as clearly laid out in the Bloodhound description as they could be.  I don't think it's Bloodhound's fault, as the [original instructions](https://powersploit.readthedocs.io/en/latest/Recon/Add-DomainGroupMember/) aren't effusive by any means.
 
 
 ## Adding an Existing User to Domain Admins by Modifying the DACL
@@ -51,4 +51,4 @@ Get-DomainGroupMember -Identity 'Domain Admins'
 
 
 ## Moving Forward
-If successful, from there your options should open up a bit to lateral movement, or obtaining hashes among other possibilities.  
+If successful, from there your options 
